@@ -45,8 +45,9 @@ To self host, you must make sure you are on a compatible platform and follow the
    - We recommend using [NVM](https://stackabuse.com/using-nvm-to-install-node/).
 3. Clone repository using [git](https://git-scm.com/) OR Download and extract the [zipped repository code](https://github.com/Vulcan-Group/Vulcan.git).
 4. Open a [shell](https://git-scm.com/downloads) in the location of directory of the downloaded source code.
-5. Run the following command: `npm ci && npm run exec:components`.
+5. Run: `npm ci && npm run exec:components`.
 6. Navigate to the new `'settings'` folder and fill in the required configuration & credentials details.
+7. Run : `npm start` or `npm run production` for the production mode.
 
 ## Easy Booting
 
