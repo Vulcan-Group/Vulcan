@@ -806,8 +806,6 @@ MusicManager.Task = class {
       const info = await ytdl.getInfo(url);
       const status = info.player_response.playabilityStatus.status;
 
-      console.log(info);
-
       if (status !== 'OK') {
         this._log(`Skipped unplayable song. STATUS=${status}`);
         continue;
