@@ -8,7 +8,6 @@
 /* eslint-disable class-methods-use-this */
 const got = xrequire('got');
 const ytsr = xrequire('ytsr');
-const { promisify } = xrequire('util');
 const EventEmitter = require('events');
 const cheerio = xrequire('cheerio');
 const caller = xrequire('caller-id');
@@ -16,8 +15,6 @@ const Discord = xrequire('discord.js');
 const ytdl = xrequire('ytdl-core-discord');
 const messageEmbeds = xrequire('./modules/messageEmbeds');
 const logger = xrequire('./modules/logger').getInstance();
-
-ytdl.getInfoAsync = promisify(ytdl.getBasicInfo);
 
 /**
  * ! Every guild has a copy of this object.
@@ -806,22 +803,23 @@ MusicManager.Task = class {
         continue;
       }
 
-      const info = await ytdl.getInfoAsync(url);
+      const info = await ytdl.getInfo(url);
       const status = info.player_response.playabilityStatus.status;
+
+      console.log(info);
 
       if (status !== 'OK') {
         this._log(`Skipped unplayable song. STATUS=${status}`);
         continue;
       }
 
-      // * Weird properties :c
       this.songs.push({
         url,
-        name: info.title,
-        loudness: info.loudness,
-        author: info.player_response.videoDetails.author,
-        seconds: parseInt(info.length_seconds, 10),
-        thumbnail: info.player_response.videoDetails.thumbnail
+        name: info.videoDetails.title || 'Unknown',
+        loudness: info.videoDetails.loudnessDb || 0,
+        author: info.videoDetails.author || 'Unknown',
+        seconds: parseInt(info.videoDetails.lengthSeconds, 10) || 0,
+        thumbnail: info.player_response.videoDetails.thumbnail || ''
       });
 
       // Notify playlist loading
